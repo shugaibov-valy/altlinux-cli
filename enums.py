@@ -1,12 +1,12 @@
 from enum import Enum
 
 
-class Branch(Enum):
+class Branch(str, Enum):
     p10 = "p10"
     sisyphus = "sisyphus"
 
 
-class Arch(Enum):
+class Arch(str, Enum):
     aarch64 = "aarch64"
     i586 = "i586"
     x86_64 = "x86_64"

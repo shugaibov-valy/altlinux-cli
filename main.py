@@ -17,7 +17,7 @@ from utils import read_json_packages
 
 @click.group()
 def cli():
-    pass
+    print("It is AltLinux CLI for https://packages.altlinux.org/ru/")
 
 
 @cli.command()
@@ -27,7 +27,7 @@ def parsing(arch: str):
     if arch not in Arch.__members__:
         raise click.BadParameter(
             "The architecture must be one of: "
-            + ", ".join([arch.value for arch in Arch.__members__.values()])
+            + ", ".join([arch.value for arch in Arch])
         )
     asyncio.run(create_tasks_parse(consts.P10_URL + arch, consts.SISYPHUS_URL + arch))
     click.echo(
@@ -44,8 +44,7 @@ def get_branch(branch: str):
     """Getting packages for a specific branch"""
     if branch not in Branch.__members__:
         raise click.BadParameter(
-            "The branch must be one of: "
-            + ", ".join([arch.value for arch in Branch.__members__.values()])
+            "The branch must be one of: " + ", ".join([arch.value for arch in Branch])
         )
     try:
         p10_packages, sisyphus_packages = read_json_packages()
@@ -58,7 +57,7 @@ def get_branch(branch: str):
         only_p10_packages = (
             p10_packages - sisyphus_packages
         )  # все пакеты, которые есть в p10 но нет в sisyphus
-        click.echo(len(only_p10_packages))
+        click.echo(only_p10_packages)
     elif branch == Branch.sisyphus:
         only_sisyphus_packages = (
             sisyphus_packages - p10_packages
