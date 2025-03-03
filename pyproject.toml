@@ -6,56 +6,12 @@ authors = ["Vali Shugaibov <65904112+shugaibov-valy@users.noreply.github.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "3.10.15"
 aiohttp = "^3.11.13"
 msgspec = "^0.19.0"
-pre-commit = "^4.1.0"
-flake8 = "^7.1.2"
-autoflake = "^2.3.1"
-isort = "^6.0.1"
+click = "^8.1.8"
 
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-
-[tool.black]
-include = '\.pyi?$'
-exclude = '''
-/(
-    \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
-)/
-'''
-
-[tool.isort]
-profile = "black"
-line_length = 88
-multi_line_output = 3
-include_trailing_comma = true
-default_section = "THIRDPARTY"
-combine_as_imports = true
-known_first_party = [
-    "analytics",
-    "app",
-    "ar",
-    "auth",
-    "charity_runner",
-    "common",
-    "config",
-    "currencies",
-    "events",
-    "gamification",
-    "locale",
-    "payments",
-    "services",
-]
-sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
