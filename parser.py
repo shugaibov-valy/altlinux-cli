@@ -10,7 +10,7 @@ async def parser_data_url(session: ClientSession, url: str, file_path: str):
     async with session.get(url=url) as response:
         data_json = await response.json()
         with open(file_path, "w") as f:
-            json.dump(data_json, f)
+            json.dump(data_json, f, indent=4)
 
 
 async def create_tasks_parse(p10_url: str, sisyphus_url: str):

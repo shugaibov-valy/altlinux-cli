@@ -4,3 +4,4 @@ SISYPHUS_URL = (
 )
 P10_FILE_PATH = "files/p10.json"
 SISYPHUS_FILE_PATH = "files/sisyphus.json"
+OUTPUT_FILE_PATH = "files/output.json"

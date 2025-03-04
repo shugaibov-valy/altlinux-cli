@@ -1,11 +1,13 @@
 import asyncio
+import json
 from parser import create_tasks_parse
 
 import click
+import msgspec
 
 import consts
 from enums import Arch, Branch
-from utils import read_json_packages
+from utils import read_json_packages, save_json_packages_in_file
 
 # # Пересечение множеств для 3 случая
 # pereshenine = p10_packages ^ sisyphus_packages
@@ -24,7 +26,7 @@ def cli():
 @click.argument("arch", type=str)
 def parsing(arch: str):
     """Parsing json relative to the selected architecture"""
-    if arch not in Arch.__members__:
+    if arch not in [arch.value for arch in Arch]:
         raise click.BadParameter(
             "The architecture must be one of: "
             + ", ".join([arch.value for arch in Arch])
@@ -42,7 +44,7 @@ def parsing(arch: str):
 @click.argument("branch", type=str)
 def get_branch(branch: str):
     """Getting packages for a specific branch"""
-    if branch not in Branch.__members__:
+    if branch not in [branch.value for branch in Branch]:
         raise click.BadParameter(
             "The branch must be one of: " + ", ".join([arch.value for arch in Branch])
         )
@@ -56,12 +58,14 @@ def get_branch(branch: str):
     if branch == Branch.p10:
         only_p10_packages = (
             p10_packages - sisyphus_packages
-        )  # все пакеты, которые есть в p10 но нет в sisyphus
-        click.echo(only_p10_packages)
+        )  # все пакеты, которые есть в p10 но нет в sisyphus (разница множеств)
+
+        save_json_packages_in_file(only_p10_packages)
+
     elif branch == Branch.sisyphus:
         only_sisyphus_packages = (
             sisyphus_packages - p10_packages
-        )  # все пакеты, которые есть в sisyphus но их нет в p10
+        )  # все пакеты, которые есть в sisyphus но их нет в p10 (разница множеств)
         click.echo(len(only_sisyphus_packages))
 
 
