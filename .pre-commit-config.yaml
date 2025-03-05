@@ -1,6 +1,14 @@
 default_language_version:
   python: python3.10
 repos:
+  - repo: local
+    hooks:
+      - id: autoflake
+        name: autoflake
+        entry: poetry run autoflake --remove-all-unused-imports --ignore-init-module-imports -ir .
+        language: system
+        pass_filenames: false
+
   - repo: https://github.com/pycqa/flake8
     rev: 6.0.0
     hooks:
