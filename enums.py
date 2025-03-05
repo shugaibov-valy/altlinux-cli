@@ -4,6 +4,7 @@ from enum import Enum
 class Branch(str, Enum):
     p10 = "p10"
     sisyphus = "sisyphus"
+    compare = "compare"
 
 
 class Arch(str, Enum):

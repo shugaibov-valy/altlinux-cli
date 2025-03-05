@@ -1,20 +1,11 @@
 import asyncio
-import json
 from parser import create_tasks_parse
 
 import click
-import msgspec
 
 import consts
 from enums import Arch, Branch
-from utils import read_json_packages, save_json_packages_in_file
-
-# # Пересечение множеств для 3 случая
-# pereshenine = p10_packages ^ sisyphus_packages
-# for pack1 in sisyphus_packages:
-#     data = [x for x in pereshenine if x.name == pack1.name]
-#     print(data)
-#     pass
+from utils import find_newer_packages, read_json_packages, save_json_packages_in_file
 
 
 @click.group()
@@ -56,17 +47,28 @@ def get_branch(branch: str):
         )
 
     if branch == Branch.p10:
-        only_p10_packages = (
-            p10_packages - sisyphus_packages
-        )  # все пакеты, которые есть в p10 но нет в sisyphus (разница множеств)
-
+        only_p10_packages = p10_packages - sisyphus_packages  # 1 task
+        click.echo(
+            f"Number packages that are in p10 but not in sisyphus - {len(only_p10_packages)}"
+        )
         save_json_packages_in_file(only_p10_packages)
+        click.echo(f"Path on output file of packages - {consts.OUTPUT_FILE_PATH}")
 
     elif branch == Branch.sisyphus:
-        only_sisyphus_packages = (
-            sisyphus_packages - p10_packages
-        )  # все пакеты, которые есть в sisyphus но их нет в p10 (разница множеств)
-        click.echo(len(only_sisyphus_packages))
+        only_sisyphus_packages = sisyphus_packages - p10_packages  # 2 task
+        click.echo(
+            f"Number packages that are in sisyphus but not in p10 - {len(only_sisyphus_packages)}"
+        )
+        save_json_packages_in_file(only_sisyphus_packages)
+        click.echo(f"Path on output file of packages - {consts.OUTPUT_FILE_PATH}")
+
+    elif branch == Branch.compare:  # 3 task
+        new_packages = find_newer_packages(sisyphus_packages, p10_packages)
+        click.echo(
+            f"Number packages with version-release greater in sisyphus than in p10 - {len(new_packages)}"
+        )
+        save_json_packages_in_file(new_packages)
+        click.echo(f"Path on output file of packages - {consts.OUTPUT_FILE_PATH}")
 
 
 if __name__ == "__main__":
