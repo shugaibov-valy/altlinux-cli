@@ -1,5 +1,5 @@
 import asyncio
-from parser import create_tasks_parse
+import parser
 
 import click
 
@@ -22,7 +22,7 @@ def parsing(arch: str):
             "The architecture must be one of: "
             + ", ".join([arch.value for arch in Arch])
         )
-    asyncio.run(create_tasks_parse(consts.P10_URL + arch, consts.SISYPHUS_URL + arch))
+    asyncio.run(parser.create_tasks_parser(consts.P10_URL + arch, consts.SISYPHUS_URL + arch))
     click.echo(
         "Parsing was successful: "
         + consts.P10_FILE_PATH
