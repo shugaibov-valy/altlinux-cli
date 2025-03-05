@@ -37,3 +37,20 @@ Commands:
   parsing     Parsing json relative to the selected architecturex
 ```
 
+### Example
+```bash
+(altlinux-cli-py3.12) root@important-produce:~/altlinux_cli# python3 main.py parsing aarch64
+Parsing was successful: files/p10.json files/sisyphus.json
+
+(altlinux-cli-py3.12) root@important-produce:~/altlinux_cli# python3 main.py get-branch p10
+Number packages that are in p10 but not in sisyphus - 27598
+Path on output file of packages - files/output.json
+
+(altlinux-cli-py3.12) root@important-produce:~/altlinux_cli# python3 main.py get-branch sisyphus
+Number packages that are in sisyphus but not in p10 - 30473
+Path on output file of packages - files/output.json
+
+(altlinux-cli-py3.12) root@important-produce:~/altlinux_cli# python3 main.py get-branch compare
+Number packages with version-release greater in sisyphus than in p10 - 15166
+Path on output file of packages - files/output.json
+```
